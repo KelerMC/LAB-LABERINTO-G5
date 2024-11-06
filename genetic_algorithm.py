@@ -69,7 +69,8 @@ class GeneticAlgorithm:
         Retorna 1 si el camino es factible, 0 en caso contrario.
         """
         for position in path:
-            if self.maze.is_obstacle(position):
+            if not self.maze.is_free(position):
+
                 return 0
         return 1
 
