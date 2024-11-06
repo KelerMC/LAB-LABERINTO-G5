@@ -73,3 +73,29 @@ class GeneticAlgorithm:
                 return 0
         return 1
 
+    def selection(self):
+        """
+        Selecciona padres para la reproducción mediante el método de ruleta.
+        Retorna dos caminos seleccionados como padres.
+        """
+        total_fitness = sum(self.fitness(path) for path in self.population)
+        pick = random.uniform(0, total_fitness)
+        current = 0
+        for path in self.population:
+            current += self.fitness(path)
+            if current > pick:
+                return path
+        return self.population[-1]
+
+    def crossover(self, parent1, parent2):
+        """
+        Realiza el cruce entre dos caminos.
+        parent1, parent2: caminos padres
+        Retorna dos caminos hijos.
+        """
+        if random.random() > self.crossover_rate:
+            return parent1, parent2  # No cruce
+        cut = random.randint(1, min(len(parent1), len(parent2)) - 1)
+        child1 = parent1[:cut] + parent2[cut:]
+        child2 = parent2[:cut] + parent1[cut:]
+        return child1, child2
