@@ -99,3 +99,34 @@ class GeneticAlgorithm:
         child1 = parent1[:cut] + parent2[cut:]
         child2 = parent2[:cut] + parent1[cut:]
         return child1, child2
+    
+    def mutate(self, path):
+        """
+        Realiza la mutación en un camino.
+        path: camino a mutar
+        Retorna un camino mutado.
+        """
+        if random.random() < self.mutation_rate:
+            pos = random.randint(1, len(path) - 2)
+            neighbors = self.maze.get_neighbors(path[pos])
+            if neighbors:
+                path[pos] = random.choice(neighbors)
+        return path
+
+    def evolve(self, generations):
+        """
+        Evoluciona la población durante un número de generaciones.
+        generations: número de generaciones
+        """
+        for _ in range(generations):
+            new_population = []
+            for _ in range(self.population_size // 2):
+                parent1 = self.selection()
+                parent2 = self.selection()
+                child1, child2 = self.crossover(parent1, parent2)
+                child1 = self.mutate(child1)
+                child2 = self.mutate(child2)
+                new_population.extend([child1, child2])
+            self.population = sorted(new_population, key=lambda p: -self.fitness(p))[:self.population_size]
+            best_path = max(self.population, key=self.fitness)
+            print(f"Mejor camino: {best_path}, Fitness: {self.fitness(best_path)}")
