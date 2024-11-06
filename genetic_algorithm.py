@@ -48,3 +48,28 @@ class GeneticAlgorithm:
         weight_feasibility = 3
 
         return weight_feasibility * feasibility + weight_length * (1 / length) + weight_turns * (1 / (turns + 1))
+    
+    def _count_turns(self, path):
+        """
+        Cuenta la cantidad de giros en el camino.
+        path: lista de posiciones
+        Retorna el número de giros en el camino.
+        """
+        turns = 0
+        for i in range(2, len(path)):
+            prev_direction= (path[i-1][0]-path[i-2][0], path[i-1][1]- path[i-2][1])
+            current_direction = (path[i][0]-path[i-1][0], path[i][1]-path[i-1][1])
+            if prev_direction != current_direction:
+                turns += 1
+        return turns
+    def _check_feasibility(self, path):
+        """
+        Verifica si un camino es factible (no cruza obstáculos).
+        path: lista de posiciones
+        Retorna 1 si el camino es factible, 0 en caso contrario.
+        """
+        for position in path:
+            if self.maze.is_obstacle(position):
+                return 0
+        return 1
+
