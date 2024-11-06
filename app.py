@@ -10,7 +10,7 @@ grid = [
     [1, 0, 1, 0, 1],
     [0, 0, 0, 0, 0],
     [0, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0]
+    [0, 0, 0, 1, 0]
 ]
 start = (0, 0)
 end = (4, 4)
@@ -82,8 +82,7 @@ def run_genetic_algorithm(ga, generations):
         
         # Esperar un tiempo para visualizar cada generación
         time.sleep(0.5)
-
-        # Manejo de eventos para cerrar la ventana manualmente
+     
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
