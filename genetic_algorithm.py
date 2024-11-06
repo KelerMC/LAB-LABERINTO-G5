@@ -9,6 +9,10 @@ class GeneticAlgorithm:
         self.population = self._initialize_population()
     
     def _initialize_population(self):
+        """
+        Genera una población inicial aleatoria.
+        Retorna una lista de caminos (cada camino es una lista de posiciones).
+        """
         population = []
         for _ in range(self.population_size):
             path = self._generate_random_path()
@@ -16,7 +20,10 @@ class GeneticAlgorithm:
         return population
     
     def _generate_random_path(self):
-        
+        """
+        Genera un camino aleatorio desde el inicio hasta el final.
+        Retorna una lista de posiciones.
+        """
         path = [self.maze.start]
         current_position = self.maze.start
         while current_position != self.maze.end:
