@@ -1,2 +1,14 @@
-__pycache__/
-*.pyc
+# Archivos de Python
+*.py[cod]          # Archivos compilados de Python
+__pycache__/       # Directorios de caché de Python
+*.so               # Archivos de extensiones compiladas
+
+# Archivos de configuración del entorno virtual
+venv/              # Entorno virtual venv
+env/               # Entorno virtual env
+.env               # Archivos de configuración de entorno
+
+# Archivos de configuración del IDE
+.vscode/           # Configuración de Visual Studio Code
+.idea/             # Configuración de PyCharm
+*.sublime-*        # Configuración de Sublime Text
