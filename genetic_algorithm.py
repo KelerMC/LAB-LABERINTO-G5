@@ -73,3 +73,60 @@ class GeneticAlgorithm:
                 return 0
         return 1
 
+    def selection(self):
+        """
+        Selecciona padres para la reproducción mediante el método de ruleta.
+        Retorna dos caminos seleccionados como padres.
+        """
+        total_fitness = sum(self.fitness(path) for path in self.population)
+        pick = random.uniform(0, total_fitness)
+        current = 0
+        for path in self.population:
+            current += self.fitness(path)
+            if current > pick:
+                return path
+        return self.population[-1]
+
+    def crossover(self, parent1, parent2):
+        """
+        Realiza el cruce entre dos caminos.
+        parent1, parent2: caminos padres
+        Retorna dos caminos hijos.
+        """
+        if random.random() > self.crossover_rate:
+            return parent1, parent2  # No cruce
+        cut = random.randint(1, min(len(parent1), len(parent2)) - 1)
+        child1 = parent1[:cut] + parent2[cut:]
+        child2 = parent2[:cut] + parent1[cut:]
+        return child1, child2
+    
+    def mutate(self, path):
+        """
+        Realiza la mutación en un camino.
+        path: camino a mutar
+        Retorna un camino mutado.
+        """
+        if random.random() < self.mutation_rate:
+            pos = random.randint(1, len(path) - 2)
+            neighbors = self.maze.get_neighbors(path[pos])
+            if neighbors:
+                path[pos] = random.choice(neighbors)
+        return path
+
+    def evolve(self, generations):
+        """
+        Evoluciona la población durante un número de generaciones.
+        generations: número de generaciones
+        """
+        for _ in range(generations):
+            new_population = []
+            for _ in range(self.population_size // 2):
+                parent1 = self.selection()
+                parent2 = self.selection()
+                child1, child2 = self.crossover(parent1, parent2)
+                child1 = self.mutate(child1)
+                child2 = self.mutate(child2)
+                new_population.extend([child1, child2])
+            self.population = sorted(new_population, key=lambda p: -self.fitness(p))[:self.population_size]
+            best_path = max(self.population, key=self.fitness)
+            print(f"Mejor camino: {best_path}, Fitness: {self.fitness(best_path)}")
