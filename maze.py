@@ -31,3 +31,7 @@ class Maze:
         r, c = position
         neighbors = [(r-1, c), (r+1, c), (r, c-1), (r, c+1)]  # Arriba, Abajo, Izquierda, Derecha
         return [n for n in neighbors if self.is_free(n)]
+    
+    def is_obstacle(self, position):
+        r, c = position
+        return 0 <= r < self.rows and 0 <= c < self.cols and self.grid[r][c] == 1
